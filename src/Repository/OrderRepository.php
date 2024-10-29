@@ -62,6 +62,7 @@ class OrderRepository extends ServiceEntityRepository
 			$qb
 				->orWhere('u.firstName LIKE :search')
 				->orWhere('u.lastName LIKE :search')
+				->orWhere('u.email LIKE :search')
 				->orWhere('o.status LIKE :search')
 				->orWhere('o.transactionId LIKE :search')
 				->setParameter('search', '%' . $search . '%')

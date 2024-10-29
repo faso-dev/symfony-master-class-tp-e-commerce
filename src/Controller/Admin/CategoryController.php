@@ -18,10 +18,12 @@ class CategoryController extends AbstractController
     public function __construct(private CategoryManager $categoryManager) {}
 
     #[Route('', name: 'app_admin_category_index', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request): Response
     {
         return $this->render('admin/categories/index.html.twig', [
-            'categories' => $this->categoryManager->findAll(),
+            'categories' => $this->categoryManager->findAll(
+				$request->query->get('q'),
+            ),
         ]);
     }
 
@@ -33,7 +35,7 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->categoryManager->create($category);
+            $this->categoryManager->update($category);
             $this->addFlash('success', 'La catégorie a été créée avec succès.');
 
             return $this->redirectToRoute('app_admin_category_index', [], Response::HTTP_SEE_OTHER);
@@ -61,6 +63,7 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // TODO: il faut appeler la bonne methode ici pour mettre à jour la catégorie
+            $this->categoryManager->update($category);
             $this->addFlash('success', 'La catégorie a été mise à jour avec succès.');
 
             return $this->redirectToRoute('app_admin_category_index', [], Response::HTTP_SEE_OTHER);

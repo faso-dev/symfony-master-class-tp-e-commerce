@@ -18,7 +18,7 @@
 		
 		public function update(Category $category): void
 		{
-			$this->categoryRepository->save($category);
+			$this->categoryRepository->save($category, DatabaseTransaction::COMMIT);
 		}
 		
 		public function delete(Category $category): void

@@ -17,10 +17,12 @@ class OrderController extends AbstractController
     public function __construct(private OrderManager $orderManager) {}
 
     #[Route('', name: 'app_admin_order_index', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request): Response
     {
         return $this->render('admin/orders/index.html.twig', [
-            'orders' => $this->orderManager->findAll(),
+            'orders' => $this->orderManager->findAll(
+				$request->query->get('q'),
+            ),
         ]);
     }
 

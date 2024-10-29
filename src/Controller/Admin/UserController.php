@@ -25,6 +25,7 @@ class UserController extends AbstractController
         return $this->render('admin/users/index.html.twig', [
             'users' => $this->userManager->findAll(
 				//TODO: Passez le bon argument pour faire la recherche
+	            $request->query->get('q'),
             ),
         ]);
     }

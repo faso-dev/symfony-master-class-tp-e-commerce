@@ -16,10 +16,12 @@ class SupportTicketController extends AbstractController
     public function __construct(private readonly TicketManager $supportTiketManager) {}
 
     #[Route('', name: 'app_admin_support_ticket_index', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request): Response
     {
         return $this->render('admin/support_tickets/index.html.twig', [
-            'support_tickets' => $this->supportTiketManager->findAll(),
+            'support_tickets' => $this->supportTiketManager->findAll(
+				$request->query->get('q'),
+            ),
         ]);
     }
 
