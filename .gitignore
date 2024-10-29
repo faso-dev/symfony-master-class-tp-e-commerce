@@ -23,3 +23,9 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> IDE ###
+/.idea
+/.vscode
+/.DS_Store
+###< IDE ###

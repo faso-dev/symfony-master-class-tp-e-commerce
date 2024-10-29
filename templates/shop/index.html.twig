@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Mon nouveau titre
+{% endblock %}
+
+{% block body %}
+    {% include '_partials/_hero.html.twig' %}
+    <div class="container mx-auto px-4 py-8">
+        <h2 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Produits en vedette</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {#    TODO: Il faut lister les vrais produits ici        #}
+            {% for product in featured_products %}
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
+                    <img src="{{ asset(product.image) }}" alt="{{ product.name }}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-100">{{ product.name }}</h3>
+                        <h2 class="text-red-600 font-bold dark:text-gray-300 mb-4">{{ product.price|number_format(2, ',', ' ') }} €</h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">{{ product.description|slice(0, 100) }}{% if product.description|length > 100 %}...{% endif %}</p>
+                        <a href="{{ path('app_shop_product_show', {'id': product.id, 'slug': product.slug}) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md inline-block hover:bg-indigo-700 transition duration-150 ease-in-out dark:bg-indigo-500 dark:hover:bg-indigo-600">Voir le produit</a>
+                    </div>
+                </div>
+            {% else %}
+                <p class="col-span-3 text-center text-gray-600 dark:text-gray-300">Aucun produit en vedette pour le moment.</p>
+            {% endfor %}
+        </div>
+
+        <h2 class="text-3xl font-bold mt-12 mb-6 text-gray-900 dark:text-white">Catégories</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {#  TODO: Il faut afficher les vraies categories venant de la base de données          #}
+            {% for category in categories %}
+                <a href="{{ path('app_shop_products', {'category': category.id}) }}" class="bg-white dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-center py-4 rounded-lg text-gray-900 dark:text-white flex gap-2 items-center px-4 shadow-sm">
+                    <img
+                        src="{{ asset(category.image) }}"
+                        alt="{{ category.name }}"
+                        class="object-cover w-[100px]"
+                    >
+                    <p class="text-sm font-semibold">{{ category.name }}</p>
+                </a>
+            {% else %}
+                <p class="col-span-4 text-center text-gray-600 dark:text-gray-300">Aucune catégorie disponible pour le moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
